@@ -1,3 +1,0 @@
-[2025-08-22T22:54:13.565Z] checking update... local=1.0.2
-[2025-08-22T22:54:13.966Z] no update, same ver
-[2025-08-22T22:54:14.137Z] changelog updated
