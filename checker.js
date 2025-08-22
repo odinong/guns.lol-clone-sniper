@@ -30,12 +30,12 @@ function writelog(msg) {
 }
 
 function restart() {
-  const cmd = `start cmd /k "timeout /t 3 >nul && node \\"${files.self}\\""`;
+  const inner = `timeout /t 3 >nul && node "${files.self}"`;
+  const cmd = `start cmd /k "${inner}"`;
   spawn("cmd", ["/c", cmd], {
     detached: true,
     stdio: "ignore"
   }).unref();
-
   process.exit(0);
 }
 
@@ -159,6 +159,7 @@ async function go() {
 
 
 go()
+
 
 
 
