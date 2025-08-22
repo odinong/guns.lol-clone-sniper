@@ -1,3 +1,0 @@
-[+] Added: ammo.lol
-[/] Fixed: AutoUpdate
-[/] Fixed: Restarting on AutoUpdate
