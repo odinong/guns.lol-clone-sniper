@@ -41,7 +41,7 @@ async function upd8() {
     if (fs.existsSync(files.changelog)) old = fs.readFileSync(files.changelog, "utf8")
     if (log.trim() !== old.trim()) {
       fs.writeFileSync(files.changelog, log, "utf8")
-      console.log("\nchangelog updated:\n")
+      console.log("\nchangelogs updated:\n")
       console.log(log + "\n")
     }
   }
@@ -135,3 +135,4 @@ async function go() {
 }
 
 go()
+
