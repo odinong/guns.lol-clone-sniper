@@ -6,10 +6,11 @@ import puppeteer from "puppeteer"
 import inquirer from "inquirer"
 
 const ver = "0.0.3"
-const repo = "https://raw.githubusercontent.com/odinong/haunt.gg-sniper/refs/heads/main"
+const repo = "https://raw.githubusercontent.com/odinong/haunt.gg-sniper/refs/heads/main/"
 const files = {
   self: path.resolve(process.argv[1]),
-  changelog: path.resolve("changelogs.txt")
+  changelog: path.resolve("changelogs.txt"),
+  updatelog: path.resolve("update-log.txt")
 }
 
 async function grab(url) {
@@ -23,26 +24,37 @@ async function grab(url) {
   })
 }
 
-function restart() {
-  const cmd = `timeout /t 1 >nul && node "${files.self}"`
-  spawn("cmd", ["/c", cmd], {
-    detached: true,
-    stdio: "ignore"
-  }).unref()
-  process.exit(0)
+function writelog(msg) {
+  const stamp = new Date().toISOString()
+  fs.appendFileSync(files.updatelog, `[${stamp}] ${msg}\n`)
 }
+
 async function upd8() {
   console.log("checking for updates...")
-
+  writelog("checking update... local=" + ver)
   const newer = await grab(repo + "checker.js")
   if (newer) {
     const m = newer.match(/const ver\s*=\s*"(.*?)"/)
-    if (m && m[1] && m[1] !== ver) {
-      console.log(`new ver ${m[1]} found (ur on ${ver})`)
-      fs.writeFileSync(files.self, newer, "utf8")
-      console.log("restarting\n")
-      restart()
+    if (m && m[1]) {
+      const remoteVer = m[1]
+      writelog("remote=" + remoteVer)
+
+      if (remoteVer !== ver) {
+        console.log(`new ver ${remoteVer} found (ur on ${ver})`)
+        writelog("update found, replacing file")
+        fs.writeFileSync(files.self, newer, "utf8")
+        console.log("rebootin...\n")
+        exec(`node ${files.self}`)
+        process.exit(0)
+      } else {
+        console.log("no update, staying on " + ver + "\n")
+        writelog("no update, same ver")
+      }
+    } else {
+      writelog("couldn't read remote ver")
     }
+  } else {
+    writelog("failed to grab remote file")
   }
 
   const log = await grab(repo + "changelog.txt")
@@ -53,22 +65,12 @@ async function upd8() {
       fs.writeFileSync(files.changelog, log, "utf8")
       console.log("\nchangelog updated:\n")
       console.log(log + "\n")
-    }
-  }
-
-  const extras = ["config.json", "readme.txt"] 
-  for (const f of extras) {
-    const got = await grab(repo + f)
-    if (got) {
-      const loc = path.resolve(f)
-      if (!fs.existsSync(loc) || fs.readFileSync(loc, "utf8").trim() !== got.trim()) {
-        fs.writeFileSync(loc, got, "utf8")
-        console.log("synced " + f)
-      }
+      writelog("changelog updated")
+    } else {
+      writelog("changelog same")
     }
   }
 }
-
 async function fuckingidk(n, junk, pre = "", bag = []) {
   if (pre.length === n) {
     bag.push(pre)
