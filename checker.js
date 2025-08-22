@@ -5,10 +5,11 @@ import path from "path"
 import puppeteer from "puppeteer"
 import inquirer from "inquirer"
 
-const repo = "https://raw.githubusercontent.com/YOURNAME/YOURREPO/main/"
+const ver = "0.0.2"
+const repo = "https://raw.githubusercontent.com/odinong/haunt.gg-sniper/refs/heads/main"
 const files = {
   self: path.resolve(process.argv[1]),
-  changelog: path.resolve("changelog.txt")
+  changelog: path.resolve("changelogs.txt")
 }
 
 async function grab(url) {
@@ -23,13 +24,15 @@ async function grab(url) {
 }
 
 async function upd8() {
+  console.log("checking for updates...")
+
   const newer = await grab(repo + "checker.js")
   if (newer) {
-    const now = fs.readFileSync(files.self, "utf8")
-    if (newer.trim() !== now.trim()) {
-      console.log("\nnew ver found, downloading")
+    const m = newer.match(/const ver\s*=\s*"(.*?)"/)
+    if (m && m[1] && m[1] !== ver) {
+      console.log(`new ver ${m[1]} found (ur on ${ver})`)
       fs.writeFileSync(files.self, newer, "utf8")
-      console.log("rebootin...\n")
+      console.log("restarting\n")
       exec(`node ${files.self}`)
       process.exit(0)
     }
@@ -41,7 +44,7 @@ async function upd8() {
     if (fs.existsSync(files.changelog)) old = fs.readFileSync(files.changelog, "utf8")
     if (log.trim() !== old.trim()) {
       fs.writeFileSync(files.changelog, log, "utf8")
-      console.log("\nchangelogs updated:\n")
+      console.log("\nchangelog updated:\n")
       console.log(log + "\n")
     }
   }
@@ -81,7 +84,7 @@ async function check(p, u, nam, stuf) {
     }
     const txt = await p.evaluate(() => document.body.innerText)
     if (txt.includes("This user is not claimed") || txt.includes("The profile you are looking")) {
-      console.log("ava: " + nam)
+      console.log("free: " + nam)
       fs.appendFileSync(stuf.file, nam + "\n")
       return true
     } else {
@@ -115,13 +118,13 @@ async function go() {
     len: parseInt(q.len),
     wait: parseInt(q.wait),
     file: q.file,
-    allowed: "abcdefghijklmnopqrstuvwxyz0123456789",
+    junk: "abcdefghijklmnopqrstuvwxyz0123456789",
     site: q.site
   }
 
   const b = await puppeteer.launch({ headless: true })
   const p = await b.newPage()
-  const all = await fuckingidk(stuf.len, stuf.allowed)
+  const all = await fuckingidk(stuf.len, stuf.junk)
 
   console.log("\nchecking " + all.length + " names on " + stuf.site + "\n")
 
@@ -135,5 +138,3 @@ async function go() {
 }
 
 go()
-
-
