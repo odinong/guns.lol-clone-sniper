@@ -30,13 +30,15 @@ function writelog(msg) {
 }
 
 function restart() {
-  const cmd = `timeout /t 1 >nul && node "${files.self}"`
+  const cmd = `start cmd /k "timeout /t 3 >nul && node \\"${files.self}\\""`;
   spawn("cmd", ["/c", cmd], {
     detached: true,
     stdio: "ignore"
-  }).unref()
-  process.exit(0)
+  }).unref();
+
+  process.exit(0);
 }
+
 async function upd8() {
   console.log("checking for updates...")
   writelog("checking update... local=" + ver)
@@ -157,6 +159,7 @@ async function go() {
 
 
 go()
+
 
 
 
