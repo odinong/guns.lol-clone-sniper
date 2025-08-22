@@ -81,7 +81,7 @@ async function check(p, u, nam, stuf) {
     }
     const txt = await p.evaluate(() => document.body.innerText)
     if (txt.includes("This user is not claimed") || txt.includes("The profile you are looking")) {
-      console.log("free: " + nam)
+      console.log("ava: " + nam)
       fs.appendFileSync(stuf.file, nam + "\n")
       return true
     } else {
@@ -115,13 +115,13 @@ async function go() {
     len: parseInt(q.len),
     wait: parseInt(q.wait),
     file: q.file,
-    junk: "abcdefghijklmnopqrstuvwxyz0123456789",
+    allowed: "abcdefghijklmnopqrstuvwxyz0123456789",
     site: q.site
   }
 
   const b = await puppeteer.launch({ headless: true })
   const p = await b.newPage()
-  const all = await fuckingidk(stuf.len, stuf.junk)
+  const all = await fuckingidk(stuf.len, stuf.allowed)
 
   console.log("\nchecking " + all.length + " names on " + stuf.site + "\n")
 
@@ -135,4 +135,5 @@ async function go() {
 }
 
 go()
+
 
