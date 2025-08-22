@@ -114,10 +114,12 @@ async function check(p, u, nam, stuf) {
   }
 }
 
+
 async function go() {
   console.clear()
   await upd8()
-
+  await new Promise(z => setTimeout(z, 3000))
+  console.clear()  
   const q = await inquirer.prompt([
     { type: "list", name: "site", message: "where u wanna check?", choices: [
       { name: "haunt.gg", value: "https://haunt.gg" },
@@ -153,5 +155,7 @@ async function go() {
   await b.close()
 }
 
+
 go()
+
 
