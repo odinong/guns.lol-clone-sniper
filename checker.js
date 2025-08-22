@@ -5,7 +5,7 @@ import path from "path"
 import puppeteer from "puppeteer"
 import inquirer from "inquirer"
 
-const ver = "0.0.4"
+const ver = "0.0.5"
 const repo = "https://raw.githubusercontent.com/odinong/guns.lol-clone-sniper/refs/heads/main/"
 const files = {
   self: path.resolve(process.argv[1]),
@@ -159,6 +159,7 @@ async function go() {
 
 
 go()
+
 
 
 
