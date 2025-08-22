@@ -5,7 +5,7 @@ import path from "path"
 import puppeteer from "puppeteer"
 import inquirer from "inquirer"
 
-const ver = "0.0.3"
+const ver = "0.0.4"
 const repo = "https://raw.githubusercontent.com/odinong/haunt.gg-sniper/refs/heads/main/"
 const files = {
   self: path.resolve(process.argv[1]),
@@ -29,6 +29,14 @@ function writelog(msg) {
   fs.appendFileSync(files.updatelog, `[${stamp}] ${msg}\n`)
 }
 
+function restart() {
+  const cmd = `timeout /t 1 >nul && node "${files.self}"`
+  spawn("cmd", ["/c", cmd], {
+    detached: true,
+    stdio: "ignore"
+  }).unref()
+  process.exit(0)
+}
 async function upd8() {
   console.log("checking for updates...")
   writelog("checking update... local=" + ver)
@@ -43,9 +51,8 @@ async function upd8() {
         console.log(`new ver ${remoteVer} found (ur on ${ver})`)
         writelog("update found, replacing file")
         fs.writeFileSync(files.self, newer, "utf8")
-        console.log("rebootin...\n")
-        exec(`node ${files.self}`)
-        process.exit(0)
+        console.log("restarting...\n")
+        restart()
       } else {
         console.log("no update, staying on " + ver + "\n")
         writelog("no update, same ver")
@@ -147,3 +154,4 @@ async function go() {
 }
 
 go()
+
