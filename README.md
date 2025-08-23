@@ -34,26 +34,6 @@ When started, you’ll be prompted for:
 
 ---
 
-## Example Screenshots
-
-- [Prompt Example](https://github.com/odinong/guns.lol-clone-sniper/blob/main/examples/prompt.png?raw=true)  
-- [Sample free.txt Output](https://github.com/odinong/guns.lol-clone-sniper/blob/main/examples/notepad.png?raw=true)  
-
----
-
-## Example Output File (free.txt)
-
-```
-abc
-qwe
-9kz
-lol
-7up
-m88
-```
-
----
-
 ## Logs
 - `update-log.txt` → keeps update history  
 - `changelogs.txt` → fetched changelog from the repo  
