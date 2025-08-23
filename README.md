@@ -36,8 +36,8 @@ When started, you’ll be prompted for:
 
 ## Example Screenshots
 
-- [Prompt Example](https://github.com/odinong/guns.lol-clone-sniper/blob/main/examples/prompt.png?raw=true)  
-- [Sample free.txt Output](https://github.com/odinong/guns.lol-clone-sniper/blob/main/examples/notepad.png?raw=true)  
+- [Prompt Example](https://raw.github.com/odinong/guns.lol-clone-sniper/blob/main/examples/prompt.png)  
+- [Sample free.txt Output](https://raw.github.com/odinong/guns.lol-clone-sniper/blob/main/examples/notepad.png)  
 
 ---
 
