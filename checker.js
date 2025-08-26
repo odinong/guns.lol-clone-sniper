@@ -19,7 +19,7 @@ async function ensureDeps() {
   inquirer = (await import("inquirer")).default
 }
 
-const ver = "2.0.0"
+const ver = "2.0.1"
 const repo = "https://raw.githubusercontent.com/odinong/guns.lol-clone-sniper/refs/heads/main/"
 const files = {
   self: path.resolve(process.argv[1]),
@@ -161,7 +161,7 @@ async function go() {
     { type: "list", name: "site", message: "where u wanna check?", choices: [
       { name: "haunt.gg", value: "https://haunt.gg" },
       { name: "guns.lol", value: "https://guns.lol" },
-      { name: "pretty.rich", value: "https://pretty.rich" },
+      { name: "pretty.rich (faster to rate limit)", value: "https://pretty.rich" },
     ]},
     { type: "input", name: "len", message: "how long names", default: 3, validate: v => !isNaN(v) && v > 0 },
     { type: "input", name: "gap", message: "time between checks (ms)", default: 200 },
@@ -189,3 +189,4 @@ async function go() {
 }
 
 go()
+
